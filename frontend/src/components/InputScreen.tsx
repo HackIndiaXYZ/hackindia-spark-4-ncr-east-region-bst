@@ -62,7 +62,7 @@ export function InputScreen({ atlas }: InputScreenProps) {
           </div>
           <span className="text-slate-100 font-semibold text-base tracking-tight">CodeAtlas</span>
           <span className="px-2 py-0.5 text-[10px] font-medium bg-orange-500/15 text-orange-400 rounded-full border border-orange-500/25 uppercase tracking-wide">
-            Beta
+           BST
           </span>
         </motion.div>
 
