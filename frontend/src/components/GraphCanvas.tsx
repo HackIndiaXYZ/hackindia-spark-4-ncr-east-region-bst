@@ -190,7 +190,6 @@ export function GraphCanvas({ nodes, links, selectedNodeId, theme, labelDensity,
               const isHovered = hoveredNodeId === graphNode.id;
               const isFocusNode = isSelected || isHovered;
 
-              // Hover/selection neighborhood takes priority; fall back to filter focus
               const hasFilterFocus = filterFocusedIds.size > 0;
               const isFilterFocused = !hasFilterFocus || filterFocusedIds.has(graphNode.id);
               const isInFocusContext = activeNeighborhood
