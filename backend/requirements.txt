@@ -1,4 +1,7 @@
 fastapi==0.116.1
 uvicorn[standard]==0.35.0
+GitPython==3.1.45
+networkx==3.4.2
 pydantic==2.11.7
 python-dotenv==1.1.1
+python-multipart==0.0.20
