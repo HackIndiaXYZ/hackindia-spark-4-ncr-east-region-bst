@@ -100,3 +100,32 @@ def summarize_repository(repo_path: str) -> RepoSummary:
         observations=observations,
         technical_metrics=technical_metrics,
     )
+def analyze_repository(repo_path: str) -> RepoSummary:
+    path = Path(repo_path)
+
+    files = list(iter_files(path))
+    total_files = len(files)
+    total_lines = 0
+
+    ext_counter = Counter()
+
+    for file in files:
+        ext = file.suffix
+        ext_counter[ext] += 1
+
+        try:
+            with open(file, "r", encoding="utf-8", errors="ignore") as f:
+                total_lines += len(f.readlines())
+        except:
+            pass
+
+    return RepoSummary(
+        total_files=total_files,
+        total_lines=total_lines,
+        top_extensions=ext_counter.most_common(5),
+        hottest_files=[],
+        project_type="unknown",
+        focus_modules=[],
+        observations=[],
+        technical_metrics={}
+    )
