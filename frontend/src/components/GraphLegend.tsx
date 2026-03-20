@@ -51,6 +51,25 @@ const NODE_TYPE_COLORS: Record<string, string> = {
   learning: "#ef4444",
 };
 
+const TAG_SWATCHES = [
+  "#22c55e",
+  "#06b6d4",
+  "#3b82f6",
+  "#8b5cf6",
+  "#ec4899",
+  "#f97316",
+  "#f59e0b",
+  "#14b8a6",
+];
+
+function colorForTag(value: string): string {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return TAG_SWATCHES[hash % TAG_SWATCHES.length];
+}
+
 // ── Section component ─────────────────────────────────
 interface FilterSectionProps {
   isLight: boolean;
@@ -63,18 +82,18 @@ interface FilterSectionProps {
 
 function FilterSection({ isLight, label, activeCount, open, onToggle, children }: FilterSectionProps) {
   return (
-    <div className={`border-b last:border-0 ${isLight ? "border-slate-200" : "border-slate-800"}`}>
+    <div className={`border-b rounded-xl my-2 transition-all duration-200 ${isLight ? "border-slate-200 bg-gradient-to-br from-slate-50/80 to-slate-50/40" : "border-slate-800 bg-gradient-to-br from-slate-800/20 to-slate-900/10"}`}>
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full flex items-center justify-between px-1 py-2.5 rounded-lg transition-colors duration-150 ${
-          isLight ? "hover:bg-slate-100/80" : "hover:bg-slate-800/30"
+        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 font-medium ${
+          isLight ? "hover:bg-slate-100/60" : "hover:bg-slate-800/40"
         }`}
       >
-        <div className="flex items-center gap-2">
-          <span className={`text-[11px] font-semibold uppercase tracking-wide ${isLight ? "text-slate-600" : "text-slate-400"}`}>{label}</span>
+        <div className="flex items-center gap-2.5">
+          <span className={`text-[10px] font-bold uppercase tracking-wider ${isLight ? "text-slate-700" : "text-slate-300"}`}>{label}</span>
           {activeCount > 0 && (
-            <span className="px-1.5 py-0.5 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-[9px] font-bold">
+            <span className="px-2 py-0.5 bg-gradient-to-r from-orange-500/30 to-orange-400/20 text-orange-500 border-2 border-orange-500/40 rounded-full text-[8px] font-bold shadow-lg shadow-orange-500/10">
               {activeCount}
             </span>
           )}
@@ -82,7 +101,7 @@ function FilterSection({ isLight, label, activeCount, open, onToggle, children }
         <motion.span
           animate={{ rotate: open ? 0 : -90 }}
           transition={{ duration: 0.2 }}
-          className={`text-xs ${isLight ? "text-slate-500" : "text-slate-600"}`}
+          className={`text-sm font-bold ${isLight ? "text-slate-500" : "text-slate-600"}`}
         >
           ▾
         </motion.span>
@@ -97,7 +116,7 @@ function FilterSection({ isLight, label, activeCount, open, onToggle, children }
             transition={{ duration: 0.22, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="pb-2 space-y-0.5">{children}</div>
+            <div className={`pb-3 px-2 space-y-1 ${isLight ? "bg-white/20" : "bg-slate-800/20"}`}>{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -120,28 +139,40 @@ function FilterRow({ isLight, isActive, dotColor, label, count, onClick }: Filte
     <motion.button
       type="button"
       onClick={onClick}
-      whileHover={{ x: 2 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-[12px] transition-all duration-150 ${
+      layout
+      animate={{
+        x: isActive ? 10 : 0,
+        scale: isActive ? 1.01 : 1,
+      }}
+      whileHover={{ x: isActive ? 12 : 4 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ type: "spring", stiffness: 260, damping: 22, mass: 0.8 }}
+      className={`w-full flex items-center justify-between gap-2 px-2.5 py-2 rounded-lg text-[11px] font-semibold transition-all duration-250 ${
         isActive
-          ? "bg-orange-500/15 border border-orange-500/30 text-orange-300"
+          ? "bg-gradient-to-r from-orange-500/30 to-orange-400/10 border-2 border-orange-500/50 text-orange-400 shadow-lg shadow-orange-500/15"
           : isLight
-            ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
-            : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            ? "text-slate-700 hover:text-slate-900 hover:bg-white/60 border-2 border-transparent hover:border-slate-300"
+            : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border-2 border-transparent hover:border-slate-700"
       }`}
     >
-      <span className="flex items-center gap-2 min-w-0">
+      <span className="flex items-center gap-2.5 min-w-0">
         {dotColor && (
-          <span
-            className="w-2 h-2 rounded-full flex-shrink-0"
-            style={{ backgroundColor: dotColor }}
+          <motion.span
+            animate={{ scale: isActive ? 1.25 : 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 shadow-lg"
+            style={{ backgroundColor: dotColor, boxShadow: `0 0 8px ${dotColor}40` }}
           />
         )}
         <span className="truncate">{label}</span>
       </span>
-      <span className={`flex-shrink-0 text-[10px] font-semibold ${isActive ? "text-orange-400" : isLight ? "text-slate-500" : "text-slate-600"}`}>
+      <motion.span
+        animate={{ scale: isActive ? 1.1 : 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className={`flex-shrink-0 text-[9px] font-bold px-2 py-0.5 rounded-full ${isActive ? "bg-orange-500/40 text-orange-300" : isLight ? "bg-slate-200 text-slate-600" : "bg-slate-700/50 text-slate-500"}`}
+      >
         {count}
-      </span>
+      </motion.span>
     </motion.button>
   );
 }
@@ -202,10 +233,10 @@ export function GraphLegend({
   const selectedLanguages = selectedFilters.languages ?? [];
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-1.5">
       {/* Header */}
-      <div className="flex items-center justify-between px-1 pb-2 mb-1">
-        <p className={`text-[10px] font-semibold uppercase tracking-widest ${isLight ? "text-slate-600" : "text-slate-500"}`}>Filters</p>
+      <div className={`flex items-center justify-between px-2 py-3 rounded-xl mb-2 ${isLight ? "bg-gradient-to-r from-orange-50 to-orange-50/50" : "bg-gradient-to-r from-orange-500/10 to-orange-500/5"}`}>
+        <p className="text-[9px] font-bold uppercase tracking-widest text-orange-500">🎯 Filters</p>
         <AnimatePresence>
           {hasAnyFilter && (
             <motion.button
@@ -214,7 +245,7 @@ export function GraphLegend({
               exit={{ opacity: 0, scale: 0.85 }}
               type="button"
               onClick={onResetFocus}
-              className="text-[10px] text-orange-400 hover:text-orange-300 font-medium transition-colors duration-150"
+              className="text-[9px] text-orange-500 hover:text-orange-400 font-bold transition-all duration-150 px-2 py-1 rounded-lg hover:bg-orange-500/10"
             >
               Clear all
             </motion.button>
@@ -278,6 +309,7 @@ export function GraphLegend({
               isLight={isLight}
               key={lang}
               isActive={selectedLanguages.includes(lang)}
+              dotColor={colorForTag(`language:${lang.toLowerCase()}`)}
               label={lang}
               count={count}
               onClick={() => onToggleFilter("languages", lang)}
@@ -300,6 +332,7 @@ export function GraphLegend({
               isLight={isLight}
               key={tech}
               isActive={selectedStack.includes(tech)}
+              dotColor={colorForTag(`stack:${tech.toLowerCase()}`)}
               label={tech}
               count={count}
               onClick={() => onToggleFilter("stack", tech)}
@@ -322,6 +355,7 @@ export function GraphLegend({
               isLight={isLight}
               key={concept}
               isActive={selectedConcepts.includes(concept)}
+              dotColor={colorForTag(`concept:${concept.toLowerCase()}`)}
               label={concept}
               count={count}
               onClick={() => onToggleFilter("concepts", concept)}

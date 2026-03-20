@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* ── Base ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body {
@@ -22,18 +21,19 @@ html, body {
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-/* ── Graph canvas ─────────────────────────────────────── */
 .graph-canvas-container { width: 100%; height: 100%; position: relative; }
 .graph-canvas-container canvas { display: block; }
 
 /* ── Markdown ─────────────────────────────────────────── */
-.md-h1  { font-size: 1.05rem; font-weight: 700; margin: 0 0 .5rem; color: #f1f5f9; }
-.md-h2  { font-size: .92rem;  font-weight: 600; margin: .75rem 0 .35rem; color: #e2e8f0; }
-.md-h3  { font-size: .85rem;  font-weight: 600; margin: .5rem 0 .25rem;  color: #cbd5e1; }
-.md-code { background: #1e293b; padding: 1px 5px; border-radius: 4px; font-size: .78rem; font-family: 'JetBrains Mono', 'Fira Code', monospace; color: #7dd3fc; }
-.md-pre  { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 10px 12px; font-size: .78rem; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; color: #94a3b8; margin: .5rem 0; }
-.md-list { margin: .25rem 0 .5rem 1.1rem; padding: 0; color: #94a3b8; font-size: .83rem; list-style: disc; }
-.md-blockquote { border-left: 3px solid #f97316; padding: 3px 10px; margin: 6px 0; color: #94a3b8; font-size: .83rem; }
-.md-link { color: #38bdf8; text-decoration: none; }
-.md-link:hover { text-decoration: underline; }
+.md-h1  { font-size: 1.1rem; font-weight: 800; margin: 0.75rem 0 0.5rem; color: #f1f5f9; background: linear-gradient(to right, #f59e0b, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.md-h2  { font-size: 0.95rem;  font-weight: 700; margin: 0.75rem 0 0.35rem; color: #e2e8f0; }
+.md-h3  { font-size: 0.87rem;  font-weight: 600; margin: 0.5rem 0 0.25rem;  color: #cbd5e1; }
+.md-code { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 2px 6px; border-radius: 5px; font-size: 0.79rem; font-family: 'JetBrains Mono', 'Fira Code', monospace; color: #7dd3fc; border: 1px solid #1e293b; }
+.md-pre  { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #1e293b; border-radius: 10px; padding: 12px 14px; font-size: 0.78rem; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; color: #94a3b8; margin: 0.5rem 0; }
+.md-list { margin: 0.35rem 0 0.5rem 1.2rem; padding: 0; color: #cbd5e1; font-size: 0.84rem; list-style: none; }
+.md-list li { position: relative; padding-left: 1rem; }
+.md-list li:before { content: "→"; position: absolute; left: 0; color: #f97316; font-weight: bold; }
+.md-blockquote { border-left: 4px solid #f97316; padding: 4px 12px; margin: 6px 0; color: #cbd5e1; font-size: 0.84rem; background: #f97316/10; border-radius: 4px; }
+.md-link { color: #38bdf8; text-decoration: none; font-weight: 600; border-bottom: 1px solid #38bdf8/30; transition: all 0.2s; }
+.md-link:hover { text-decoration: underline; border-bottom-color: #38bdf8; }
 

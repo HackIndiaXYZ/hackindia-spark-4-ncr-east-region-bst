@@ -29,10 +29,10 @@ const COMPLEXITY_COLOR: Record<string, string> = {
 };
 
 const TABS: { id: SidebarTab; label: string; icon: string }[] = [
-  { id: "explain", label: "Explain", icon: "⚡" },
-  { id: "chat", label: "Chat", icon: "💬" },
-  { id: "docs", label: "Docs", icon: "📄" },
-  { id: "filters", label: "Filters", icon: "🔍" },
+  { id: "explain", label: "Explain", icon: "✨" },
+  { id: "chat", label: "Chat", icon: "💭" },
+  { id: "docs", label: "Docs", icon: "📚" },
+  { id: "filters", label: "Filters", icon: "🎯" },
 ];
 
 interface SidebarProps {
@@ -65,20 +65,20 @@ export function Sidebar({ atlas }: SidebarProps) {
       }`}
     >
       {/* ── Node info header ─────────────────────────── */}
-      <div className={`flex-shrink-0 px-5 pt-4 pb-3 border-b ${isLight ? "border-slate-200" : "border-slate-800"}`}>
-        <p className="text-[10px] text-orange-400 font-semibold uppercase tracking-widest mb-2">Inspector</p>
+      <div className={`flex-shrink-0 px-5 pt-5 pb-4 border-b gap-3 flex flex-col ${isLight ? "border-slate-200 bg-gradient-to-b from-slate-50 via-slate-50 to-white" : "border-slate-800 bg-gradient-to-b from-slate-800/30 via-slate-900/20 to-slate-900/10"}`}>
+        <p className="text-[9px] text-orange-400 font-bold uppercase tracking-widest">🔍 Inspector</p>
         {node ? (
-          <div className="space-y-1.5">
-            <div className="flex items-start gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-[11px]">
+          <div className="space-y-2.5">
+            <div className="flex items-start gap-3">
+              <div className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center flex-shrink-0 ${isLight ? "bg-slate-100 border-slate-300" : "bg-slate-800/60 border-slate-700"}`}>
+                <span className="text-lg">
                   {node.type === "file" ? "📄" : node.type === "concept" ? "💡" : node.type === "stack" ? "⚙️" : node.type === "project" ? "📦" : node.type === "owner" ? "👤" : "📚"}
                 </span>
               </div>
-              <div className="min-w-0">
-                <h3 className={`font-semibold text-sm truncate leading-tight ${isLight ? "text-slate-900" : "text-slate-100"}`}>{node.label}</h3>
-                <p className={`text-[11px] mt-0.5 ${isLight ? "text-slate-500" : "text-slate-500"}`}>
-                  {node.type}
+              <div className="min-w-0 flex-1">
+                <h3 className={`font-bold text-sm truncate leading-tight ${isLight ? "text-slate-900" : "text-slate-100"}`}>{node.label}</h3>
+                <p className={`text-[10px] mt-0.5 font-medium ${isLight ? "text-slate-600" : "text-slate-400"}`}>
+                  {node.type.toUpperCase()}
                   {node.domain_tags.length > 0 ? ` · ${node.domain_tags.slice(0, 2).join(", ")}` : ""}
                 </p>
               </div>
@@ -86,16 +86,16 @@ export function Sidebar({ atlas }: SidebarProps) {
 
             {/* Resource links */}
             {atlas.selectedResourceLinks.length > 0 && (
-              <div className="flex flex-wrap gap-1 pt-0.5">
+              <div className="flex flex-wrap gap-1.5 pt-1">
                 {atlas.selectedResourceLinks.slice(0, 4).map((link) => (
                   <a
                     key={link.url}
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 hover:text-sky-300 text-[10px] transition-colors duration-150"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-sky-500/20 to-cyan-500/10 border border-sky-500/30 text-sky-400 hover:text-sky-300 hover:border-sky-500/50 text-[9px] font-medium transition-all duration-150 hover:shadow-lg hover:shadow-sky-500/10"
                   >
-                    <span className="text-[9px]">↗</span>
+                    <span className="text-[8px]">↗</span>
                     {link.label}
                   </a>
                 ))}
@@ -108,25 +108,28 @@ export function Sidebar({ atlas }: SidebarProps) {
       </div>
 
       {/* ── Tab bar ──────────────────────────────────── */}
-      <div className={`flex-shrink-0 flex border-b ${isLight ? "border-slate-200 bg-white" : "border-slate-800 bg-slate-900/60"}`}>
+      <div className={`flex-shrink-0 flex border-b ${isLight ? "border-slate-200 bg-gradient-to-b from-white to-slate-50" : "border-slate-800 bg-gradient-to-b from-slate-900 to-slate-900/50"}`}>
         {TABS.map((tab) => (
           <button
             key={tab.id}
             type="button"
             onClick={() => handleTabChange(tab.id)}
-            className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-all duration-200 relative ${
+            className={`flex-1 flex flex-col items-center gap-1 py-3 px-2 text-[10px] font-medium transition-all duration-200 relative group ${
               activeTab === tab.id
                 ? "text-orange-400"
-                : isLight ? "text-slate-500 hover:text-slate-800" : "text-slate-500 hover:text-slate-300"
+                : isLight ? "text-slate-500 hover:text-slate-700" : "text-slate-500 hover:text-slate-300"
             }`}
           >
-            <span>{tab.icon}</span>
-            <span>{tab.label}</span>
+            <span className="text-lg group-hover:scale-110 transition-transform duration-200">{tab.icon}</span>
+            <span className="font-semibold">{tab.label}</span>
             {activeTab === tab.id && (
               <motion.div
                 layoutId="sidebar-tab-indicator"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-orange-500 rounded-full"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full"
               />
+            )}
+            {activeTab !== tab.id && (
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-transparent group-hover:bg-slate-300/20 rounded-full transition-colors duration-200" />
             )}
           </button>
         ))}
@@ -144,21 +147,21 @@ export function Sidebar({ atlas }: SidebarProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="p-4 space-y-4"
+              className="p-5 space-y-4"
             >
               {atlas.explanation ? (
                 <>
-                  <div className={`p-4 rounded-xl border ${isLight ? "bg-slate-50 border-slate-200" : "bg-slate-800/50 border-slate-700/60"}`}>
-                    <p className={`text-sm leading-relaxed ${isLight ? "text-slate-800" : "text-slate-200"}`}>{atlas.explanation.summary}</p>
+                  <div className={`p-4 rounded-xl border-2 backdrop-blur-sm ${isLight ? "bg-gradient-to-br from-orange-50 to-orange-50/50 border-orange-200/50" : "bg-gradient-to-br from-orange-500/10 to-orange-500/5 border-orange-500/30"}`}>
+                    <p className={`text-sm leading-relaxed font-medium ${isLight ? "text-slate-800" : "text-slate-200"}`}>{atlas.explanation.summary}</p>
                   </div>
 
                   {atlas.explanation.responsibilities.length > 0 && (
-                    <div>
-                      <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-2">Responsibilities</p>
-                      <ul className="space-y-1.5">
+                    <div className="space-y-2">
+                      <p className="text-[9px] text-orange-400 font-bold uppercase tracking-wider">📋 Responsibilities</p>
+                      <ul className="space-y-2">
                         {atlas.explanation.responsibilities.map((item) => (
-                          <li key={item} className={`flex items-start gap-2 text-[12px] ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                            <span className="mt-1.5 w-1 h-1 rounded-full bg-orange-500/70 flex-shrink-0" />
+                          <li key={item} className={`flex items-start gap-2.5 text-[12px] leading-relaxed ${isLight ? "text-slate-700" : "text-slate-300"}`}>
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex-shrink-0" />
                             {item}
                           </li>
                         ))}
@@ -167,11 +170,11 @@ export function Sidebar({ atlas }: SidebarProps) {
                   )}
 
                   {atlas.explanation.dependencies.length > 0 && (
-                    <div>
-                      <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-2">Dependencies</p>
-                      <div className="flex flex-wrap gap-1.5">
+                    <div className="space-y-2">
+                      <p className="text-[9px] text-orange-400 font-bold uppercase tracking-wider">🔗 Dependencies</p>
+                      <div className="flex flex-wrap gap-2">
                         {atlas.explanation.dependencies.slice(0, 8).map((dep) => (
-                          <span key={String(dep)} className={`px-2 py-0.5 border rounded-md text-[11px] font-mono ${isLight ? "bg-white border-slate-200 text-slate-600" : "bg-slate-800 border-slate-700 text-slate-400"}`}>
+                          <span key={String(dep)} className={`px-2.5 py-1.5 border-2 rounded-lg text-[10px] font-mono font-semibold transition-all duration-150 ${isLight ? "bg-white border-slate-300 text-slate-600 hover:border-orange-300 hover:text-orange-600" : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-orange-500/50 hover:text-orange-400"}`}>
                             {typeof dep === "string" ? dep.replace("file:", "").split("/").pop() : String(dep)}
                           </span>
                         ))}
@@ -179,33 +182,33 @@ export function Sidebar({ atlas }: SidebarProps) {
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2">
-                    <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Complexity</p>
+                  <div className="flex items-center gap-3 pt-2">
+                    <p className="text-[9px] text-orange-400 font-bold uppercase tracking-wider">⚡ Complexity</p>
                     <span
-                      className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border"
+                      className="px-3 py-1 rounded-full text-[11px] font-bold border-2 transition-all duration-150"
                       style={{
                         color: COMPLEXITY_COLOR[atlas.explanation.complexity] ?? COMPLEXITY_COLOR.unknown,
-                        borderColor: `${COMPLEXITY_COLOR[atlas.explanation.complexity] ?? COMPLEXITY_COLOR.unknown}40`,
-                        backgroundColor: `${COMPLEXITY_COLOR[atlas.explanation.complexity] ?? COMPLEXITY_COLOR.unknown}12`,
+                        borderColor: COMPLEXITY_COLOR[atlas.explanation.complexity] ?? COMPLEXITY_COLOR.unknown,
+                        backgroundColor: `${COMPLEXITY_COLOR[atlas.explanation.complexity] ?? COMPLEXITY_COLOR.unknown}20`,
                       }}
                     >
-                      {atlas.explanation.complexity}
+                      {atlas.explanation.complexity.toUpperCase()}
                     </span>
                   </div>
                 </>
               ) : atlas.selectedNode ? (
-                <div className="flex flex-col items-center gap-3 py-8 text-center">
+                <div className="flex flex-col items-center gap-3 py-12 text-center">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
                     className="w-8 h-8 border-2 border-slate-700 border-t-orange-500 rounded-full"
                   />
-                  <p className={`text-sm ${isLight ? "text-slate-600" : "text-slate-500"}`}>Generating explanation…</p>
+                  <p className={`text-sm font-medium ${isLight ? "text-slate-600" : "text-slate-500"}`}>Generating explanation…</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center gap-2 py-12 text-center">
-                  <span className="text-3xl opacity-40">⚡</span>
-                  <p className={`text-sm ${isLight ? "text-slate-600" : "text-slate-500"}`}>Select a node to generate explanation.</p>
+                <div className="flex flex-col items-center gap-3 py-12 text-center">
+                  <span className="text-4xl opacity-40">✨</span>
+                  <p className={`text-sm font-medium ${isLight ? "text-slate-600" : "text-slate-500"}`}>Select a node to generate explanation.</p>
                 </div>
               )}
             </motion.div>
@@ -223,23 +226,23 @@ export function Sidebar({ atlas }: SidebarProps) {
               style={{ minHeight: "calc(100vh - 200px)" }}
             >
               {/* Messages area */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div className="flex-1 overflow-y-auto p-5 space-y-4">
                 {atlas.chatMessages.length === 0 ? (
-                  <div className="space-y-4 py-4">
+                  <div className="space-y-5 py-6">
                     <div className="text-center">
-                      <span className="text-3xl opacity-40">💬</span>
-                      <p className={`text-sm mt-2 ${isLight ? "text-slate-600" : "text-slate-500"}`}>Ask questions about this codebase.</p>
+                      <span className="text-4xl opacity-50 inline-block">💭</span>
+                      <p className={`text-sm mt-3 font-medium ${isLight ? "text-slate-600" : "text-slate-500"}`}>Ask questions about this codebase.</p>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {["What does this repo do?", "Which files are most important?", "Explain the architecture"].map((s) => (
                         <button
                           key={s}
                           type="button"
                           onClick={() => { void atlas.sendChat(s); }}
-                          className={`w-full text-left px-3.5 py-2.5 rounded-xl border text-[12px] transition-all duration-150 ${
+                          className={`w-full text-left px-4 py-3 rounded-xl border-2 text-[12px] font-medium transition-all duration-150 ${
                             isLight
-                              ? "bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300"
-                              : "bg-slate-800/60 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600"
+                              ? "bg-white border-slate-300 text-slate-700 hover:text-slate-900 hover:border-orange-300 hover:bg-orange-50"
+                              : "bg-slate-800/40 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-orange-500/50 hover:bg-slate-800/60"
                           }`}
                         >
                           {s}
@@ -255,14 +258,14 @@ export function Sidebar({ atlas }: SidebarProps) {
                     className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-[12px] leading-relaxed ${
+                      className={`max-w-[82%] px-4 py-2.5 rounded-2xl text-[12px] leading-relaxed font-medium ${
                         message.role === "user"
                           ? isLight
-                            ? "bg-orange-100 border border-orange-300 text-slate-900 rounded-br-md"
-                            : "bg-orange-500/20 border border-orange-500/25 text-slate-200 rounded-br-md"
+                            ? "bg-gradient-to-br from-orange-500 to-orange-600 border border-orange-600 text-white rounded-br-sm shadow-lg"
+                            : "bg-gradient-to-br from-orange-500/30 to-orange-600/20 border border-orange-500/50 text-slate-200 rounded-br-sm"
                           : isLight
-                            ? "bg-white border border-slate-200 text-slate-800 rounded-bl-md"
-                            : "bg-slate-800/80 border border-slate-700 text-slate-300 rounded-bl-md"
+                            ? "bg-white border border-slate-300 text-slate-800 rounded-bl-sm shadow-sm"
+                            : "bg-slate-800/80 border border-slate-700 text-slate-300 rounded-bl-sm"
                       }`}
                     >
                       {message.loading ? (
@@ -285,10 +288,10 @@ export function Sidebar({ atlas }: SidebarProps) {
               </div>
 
               {/* Input */}
-              <div className={`flex-shrink-0 p-3 border-t flex gap-2 ${isLight ? "border-slate-200" : "border-slate-800"}`}>
+              <div className={`flex-shrink-0 p-4 border-t flex gap-3 ${isLight ? "border-slate-200 bg-gradient-to-t from-white to-white/50" : "border-slate-800 bg-gradient-to-t from-slate-900 to-slate-900/50"}`}>
                 <input
-                  className={`flex-1 border rounded-xl px-3.5 py-2 placeholder-slate-500 text-[12px] focus:outline-none focus:border-orange-500/50 transition-all duration-200 ${
-                    isLight ? "bg-white border-slate-300 text-slate-900" : "bg-slate-800/60 border-slate-700 text-slate-100"
+                  className={`flex-1 border-2 rounded-xl px-4 py-2.5 placeholder-slate-500 text-[12px] focus:outline-none focus:border-orange-500 transition-all duration-200 font-medium ${
+                    isLight ? "bg-white border-slate-300 text-slate-900 focus:bg-orange-50" : "bg-slate-800/60 border-slate-700 text-slate-100 focus:bg-slate-800"
                   }`}
                   placeholder="Ask about this codebase…"
                   value={chatInput}
@@ -301,8 +304,8 @@ export function Sidebar({ atlas }: SidebarProps) {
                   }}
                 />
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
                   type="button"
                   disabled={!chatInput.trim() || atlas.chatLoading}
                   onClick={() => {
@@ -310,7 +313,7 @@ export function Sidebar({ atlas }: SidebarProps) {
                     void atlas.sendChat(chatInput);
                     setChatInput("");
                   }}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-orange-500 hover:bg-orange-400 disabled:bg-slate-700 disabled:text-slate-500 text-white transition-colors duration-200 flex-shrink-0"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 text-white transition-all duration-200 flex-shrink-0 font-bold shadow-lg hover:shadow-orange-500/30"
                 >
                   ↑
                 </motion.button>
@@ -326,27 +329,26 @@ export function Sidebar({ atlas }: SidebarProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="p-4"
+              className="p-5"
             >
               {atlas.docsLoading ? (
-                <div className="flex flex-col items-center gap-3 py-8">
+                <div className="flex flex-col items-center gap-4 py-12">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
-                    className="w-8 h-8 border-2 border-slate-700 border-t-orange-500 rounded-full"
+                    className="w-8 h-8 border-3 border-slate-700 border-t-orange-500 rounded-full"
                   />
-                  <p className={`text-sm ${isLight ? "text-slate-600" : "text-slate-500"}`}>Generating docs…</p>
+                  <p className={`text-sm font-medium ${isLight ? "text-slate-600" : "text-slate-500"}`}>Generating docs…</p>
                 </div>
               ) : atlas.docsMarkdown ? (
                 <div
-                  className={`text-sm leading-relaxed ${isLight ? "text-slate-800" : "text-slate-300"}`}
-                  // biome-ignore lint/security/noDangerouslySetInnerHtml: safe — content from our own backend
+                  className={`text-sm leading-relaxed font-medium ${isLight ? "text-slate-800" : "text-slate-300"}`}
                   dangerouslySetInnerHTML={{ __html: renderMarkdown(atlas.docsMarkdown) }}
                 />
               ) : (
-                <div className="flex flex-col items-center gap-2 py-12 text-center">
-                  <span className="text-3xl opacity-40">📄</span>
-                  <p className={`text-sm ${isLight ? "text-slate-600" : "text-slate-500"}`}>
+                <div className="flex flex-col items-center gap-3 py-14 text-center">
+                  <span className="text-5xl opacity-40">📚</span>
+                  <p className={`text-sm font-medium ${isLight ? "text-slate-600" : "text-slate-500"}`}>
                     {atlas.selectedNode ? "Click the Docs tab again or select a node." : "Select a node to load its documentation."}
                   </p>
                 </div>
