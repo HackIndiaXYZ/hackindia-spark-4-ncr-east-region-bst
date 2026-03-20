@@ -67,7 +67,6 @@ export function InputScreen({ atlas }: InputScreenProps) {
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_420px] gap-10 items-start">
-          {/* ─── Left hero ──────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
