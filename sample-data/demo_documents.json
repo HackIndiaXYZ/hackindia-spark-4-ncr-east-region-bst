@@ -1,0 +1,14 @@
+[
+  {
+    "path": "backend/app/main.py",
+    "content": "FastAPI application with analyze and graph endpoints"
+  },
+  {
+    "path": "frontend/src/App.jsx",
+    "content": "React UI that calls backend endpoints and renders cards"
+  },
+  {
+    "path": "backend/app/services/ml_ranker.py",
+    "content": "Cosine similarity ranker for prompt and code tokens"
+  }
+]
