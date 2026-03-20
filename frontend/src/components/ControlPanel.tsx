@@ -45,7 +45,7 @@ export function ControlPanel({
   companyStack,
   addCompanyStack,
   removeCompanyStack,
-  domains,
+  domains,it
   selectedDomains,
   toggleDomain,
   availableNodeTypes,
